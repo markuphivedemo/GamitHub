@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Choose a budgeting method and plan your money with this free Philippine peso budget planner.">
+<title>GamitHub | Budget Planner</title>
+<style>
+:root{
+ --ink:#29263a;--muted:#777487;--pink:#df78a4;--pink-dark:#bd527f;--pink-soft:#fff0f6;
+ --line:#eee8ef;--paper:#fff;--bg:#fffafd;--lav:#f4f0fa;--green:#59a58a;--blue:#7e91d5;
+ --orange:#e5a05d;--red:#d87575;--shadow:0 12px 36px rgba(52,35,64,.06);
+ font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 90% 0,#ffedf4 0,transparent 28rem),var(--bg);color:var(--ink);min-height:100vh}
+button,input{font:inherit}button{cursor:pointer}.app{max-width:1120px;width:calc(100% - 32px);margin:auto;padding:24px 0 54px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850;letter-spacing:-.03em;font-size:1.12rem}
+.brandmark{width:38px;height:38px;border-radius:13px;background:var(--pink-soft);display:grid;place-items:center;color:var(--pink-dark);font-size:1.15rem}
+.brand small{display:block;color:var(--muted);font-size:.68rem;letter-spacing:.02em;font-weight:550}
+.toplink{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 15px;color:var(--muted);font-size:.84rem}
+.hero{text-align:center;margin:12px auto 30px;max-width:720px}
+.eyebrow{color:var(--pink-dark);font-size:.72rem;font-weight:850;letter-spacing:.15em;text-transform:uppercase}
+h1{font-size:clamp(2rem,5vw,3.35rem);letter-spacing:-.055em;line-height:1.08;margin:10px 0}
+.hero p{color:var(--muted);line-height:1.65;margin:0 auto;max-width:610px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:30px 0 15px}
+.section-head h2{font-size:1.22rem;margin:0;letter-spacing:-.025em}
+.section-head p{margin:5px 0 0;color:var(--muted);font-size:.86rem}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.method{background:var(--paper);border:1px solid var(--line);border-radius:19px;padding:19px;text-align:left;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:205px;transition:transform .18s,border .18s,box-shadow .18s;color:inherit}
+.method:hover{transform:translateY(-3px);border-color:#e9b6cc;box-shadow:0 16px 38px rgba(52,35,64,.09)}
+.method-icon{width:42px;height:42px;border-radius:14px;background:var(--pink-soft);display:grid;place-items:center;font-size:1.25rem;margin-bottom:14px}
+.method h3{font-size:1rem;margin:0 0 7px}.method p{color:var(--muted);font-size:.82rem;line-height:1.5;margin:0 0 15px}
+.method-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;color:var(--pink-dark);font-size:.82rem;font-weight:800}
+.pill{font-size:.68rem;background:#f5f2f7;color:#777487;border-radius:999px;padding:5px 8px;font-weight:700}
+.panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:clamp(18px,3vw,27px);box-shadow:var(--shadow)}
+.hidden{display:none!important}
+.back{border:0;background:transparent;color:var(--pink-dark);font-weight:800;padding:0;margin:0 0 15px}
+.calc-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:20px}
+.calc-head h2{margin:0 0 6px;font-size:1.55rem;letter-spacing:-.04em}.calc-head p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.calc-layout{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(280px,.95fr);gap:17px;align-items:start}
+.box{background:#fff;border:1px solid var(--line);border-radius:17px;padding:19px}
+.box h3{font-size:1rem;margin:0 0 16px}
+.field{margin:0 0 15px}.field:last-child{margin-bottom:0}
+label{display:block;font-weight:750;font-size:.83rem;margin-bottom:7px}
+.inputrow{display:flex;align-items:center;border:1.5px solid #e6e0e9;border-radius:12px;padding:0 12px;background:#fff}
+.inputrow:focus-within{border-color:var(--pink);box-shadow:0 0 0 3px #df78a41c}
+.prefix{font-weight:750;color:var(--muted);font-size:.88rem}
+input[type=number],input[type=text]{width:100%;min-width:0;border:0;outline:0;background:transparent;padding:12px 7px;font-size:.96rem;color:var(--ink)}
+input[type=number]{font-variant-numeric:tabular-nums}
+.hint{font-size:.75rem;color:var(--muted);margin:6px 0 0;line-height:1.45}
+.result-total{padding:15px;border-radius:14px;background:var(--pink-soft);margin-bottom:16px}
+.result-total span{display:block;color:#946078;font-size:.75rem;font-weight:700}.result-total strong{font-size:1.65rem;letter-spacing:-.04em;display:block;margin-top:3px;font-variant-numeric:tabular-nums}
+.rows{display:grid;gap:14px}.result-row{display:grid;gap:7px}
+.rowtop{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:.85rem}
+.rowlabel{display:flex;align-items:center;gap:8px;font-weight:800}.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.money{font-weight:850;font-variant-numeric:tabular-nums}
+.track{height:8px;background:#f0edf2;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;transition:width .2s}
+.subtext{font-size:.74rem;color:var(--muted);line-height:1.4}
+.note{background:#faf7fb;border:1px solid #eee7f0;border-radius:12px;padding:12px 13px;color:#716b7c;font-size:.78rem;line-height:1.5;margin-top:16px}
+.actions{display:flex;gap:9px;margin-top:17px}.btn{border:0;border-radius:12px;padding:11px 14px;font-weight:800;font-size:.83rem}
+.primary{background:var(--pink);color:white}.primary:hover{background:var(--pink-dark)}.soft{background:#f3f0f5;color:var(--ink)}
+.inline-fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.item-list{display:grid;gap:9px}.item-input{display:grid;grid-template-columns:minmax(0,1fr) minmax(105px,.8fr);gap:9px;align-items:center}
+.item-input input[type=text]{border:1px solid #e6e0e9;border-radius:10px;padding:10px}
+.item-input .inputrow input{padding:10px 5px}
+.addrow{border:1px dashed #e4c4d3;background:#fff9fc;color:var(--pink-dark);border-radius:10px;padding:9px 12px;font-weight:800;font-size:.8rem;margin-top:10px}
+.status{font-size:.78rem;font-weight:800;margin-top:12px}.good{color:var(--green)}.warn{color:#bd7b38}.bad{color:var(--red)}
+footer{text-align:center;color:#9993a2;font-size:.76rem;margin-top:30px;line-height:1.6}
+@media(max-width:800px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.calc-layout{grid-template-columns:1fr}}
+@media(max-width:520px){.app{width:calc(100% - 22px);padding-top:17px}.grid{grid-template-columns:1fr}.method{min-height:0}.topbar{margin-bottom:24px}.calc-head{display:block}.calc-head .pill{display:inline-block;margin-top:10px}.inline-fields{grid-template-columns:1fr}.panel{padding:14px}.box{padding:15px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="topbar">
+    <div class="brand"><div class="brandmark">✿</div><div>GamitHub<small>simple tools for everyday life</small></div></div>
+    <button class="toplink" id="homeTop" type="button">Budget planner</button>
+  </nav>
+
+  <section id="dashboard">
+    <header class="hero">
+      <div class="eyebrow">Your money, your method</div>
+      <h1>A budget that makes sense<br>for your life.</h1>
+      <p>Choose a budgeting method below. Enter your take-home income, adjust the numbers, and build a plan that feels realistic for you.</p>
+    </header>
+    <div class="section-head">
+      <div><h2>Choose your budgeting method</h2><p>Pick the approach that suits the way you like to manage money.</p></div>
+      <span class="pill">6 methods + custom</span>
+    </div>
+    <div class="grid">
+      <button class="method" data-method="503020"><span class="method-icon">⚖️</span><h3>50/30/20 Rule</h3><p>Divide income into 50% needs, 30% wants, and 20% savings.</p><span class="method-foot">Open calculator <span>→</span></span></button>
+      <button class="method" data-method="702010"><span class="method-icon">🧭</span><h3>70/20/10 Rule</h3><p>Plan 70% for living expenses, 20% for savings, and 10% for giving or extra debt payments.</p><span class="method-foot">Open calculator <span>→</span></span></button>
+      <button class="method" data-method="zero"><span class="method-icon">🧮</span><h3>Zero-Based Budget</h3><p>Give every peso a job until income minus planned allocations equals zero.</p><span class="method-foot">Open planner <span>→</span></span></button>
+      <button class="method" data-method="payfirst"><span class="method-icon">🌱</span><h3>Pay Yourself First</h3><p>Set aside savings first, then plan how to use the money left over.</p><span class="method-foot">Open calculator <span>→</span></span></button>
+      <button class="method" data-method="envelope"><span class="method-icon">✉️</span><h3>Envelope Budgeting</h3><p>Give each spending category its own money limit, like separate envelopes.</p><span class="method-foot">Open planner <span>→</span></span></button>
+      <button class="method" data-method="bare"><span class="method-icon">🪴</span><h3>Bare-Bones Budget</h3><p>Focus on essentials first to see the minimum amount needed to get by.</p><span class="method-foot">Open calculator <span>→</span></span></button>
+      <button class="method" data-method="custom"><span class="method-icon">🎨</span><h3>Custom Allocation</h3><p>Choose your own percentages for each part of your budget.</p><span class="method-foot">Open calculator <span>→</span></span></button>
+    </div>
+  </section>
+
+  <section id="calculator" class="hidden">
+    <button class="back" id="back" type="button">← All budgeting methods</button>
+    <div class="panel">
+      <div class="calc-head"><div><h2 id="calcTitle">Budget calculator</h2><p id="calcDesc"></p></div><span class="pill">PHP · Monthly</span></div>
+      <div id="calcBody"></div>
+    </div>
+  </section>
+  <footer>GamitHub Budget Planner · Free to use · Your calculations stay in this browser and are not sent to a server.<br>Budgeting methods are guidelines. Adjust them to your circumstances.</footer>
+</div>
+<script>
+const $ = s => document.querySelector(s);
+const fmt = n => new Intl.NumberFormat('en-PH',{style:'currency',currency:'PHP',minimumFractionDigits:2,maximumFractionDigits:2}).format(Number(n)||0);
+const num = id => Math.max(0, Number(document.getElementById(id)?.value)||0);
+const methods = {
+ '503020': ['50/30/20 Budget Calculator','A simple starting point: 50% for needs, 30% for wants, and 20% for savings.'],
+ '702010': ['70/20/10 Budget Calculator','An illustrative split: 70% living expenses, 20% savings, and 10% giving or extra debt payments.'],
+ 'zero': ['Zero-Based Budget Planner','Assign your entire income to categories. Your unassigned amount should reach ₱0.'],
+ 'payfirst': ['Pay Yourself First Calculator','Choose a savings amount first. Plan the remaining money for needs and wants.'],
+ 'envelope': ['Envelope Budget Planner','Set a spending limit for each envelope or category.'],
+ 'bare': ['Bare-Bones Budget Calculator','List only essential expenses to understand your minimum monthly needs.'],
+ 'custom': ['Custom Budget Calculator','Set your own percentages and see how each allocation changes.']
+};
+let active = null;
+function field(id,label,value,help=''){return `<div class="field"><label for="${id}">${label}</label><div class="inputrow"><span class="prefix">₱</span><input id="${id}" type="number" min="0" step="100" value="${value}" inputmode="decimal"></div>${help?`<p class="hint">${help}</p>`:''}</div>`}
+function incomeBox(defaultValue=25000){return `<div class="box"><h3>Your monthly take-home income</h3>${field('income','Income after deductions',defaultValue,'Use the amount that actually reaches your account.')}</div>`}
+function resultBox(){return `<div class="box" id="resultBox"><h3>Your budget breakdown</h3><div id="results"></div><div class="actions"><button class="btn primary" id="copyBtn" type="button">Copy my budget</button><button class="btn soft" id="resetBtn" type="button">Reset</button></div></div>`}
+function standardRows(rows,total){return `<div class="result-total"><span>Monthly income</span><strong>${fmt(total)}</strong></div><div class="rows">${rows.map(r=>`<div class="result-row"><div class="rowtop"><span class="rowlabel"><i class="dot" style="background:${r.color}"></i>${r.name} <span class="subtext">${r.pct!==undefined? r.pct+'%':''}</span></span><b class="money">${fmt(r.value)}</b></div><div class="track"><div class="fill" style="width:${total?Math.min(100,Math.max(0,r.value/total*100)):0}%;background:${r.color}"></div></div>${r.note?`<div class="subtext">${r.note}</div>`:''}</div>`).join('')}</div>`}
+function setResults(html,copyText){$('#results').innerHTML=html;$('#copyBtn').onclick=()=>copy(copyText());}
+async function copy(text){try{await navigator.clipboard.writeText(text);$('#copyBtn').textContent='Copied!';setTimeout(()=>$('#copyBtn').textContent='Copy my budget',1500)}catch{$('#copyBtn').textContent='Copy unavailable';setTimeout(()=>$('#copyBtn').textContent='Copy my budget',1500)}}
+function wireReset(){ $('#resetBtn').onclick=()=>{render(active)} }
+function listen(ids,fn){ids.forEach(id=>document.getElementById(id)?.addEventListener('input',fn))}
+function makeSimple(method){
+ const data = method==='503020' ? [['Needs',50,'#7e91d5','Rent, groceries, utilities, and essential transport.'],['Wants',30,'#e5a05d','Eating out, hobbies, subscriptions, and non-essentials.'],['Savings',20,'#59a58a','Emergency fund, goals, and extra debt payments.']]
+ : method==='702010' ? [['Living expenses',70,'#7e91d5','Everyday costs and bills.'],['Savings',20,'#59a58a','Emergency fund and future goals.'],['Giving / extra debt',10,'#e5a05d','Giving, donations, or additional debt payments.']]
+ : [['Needs',50,'#7e91d5','Essentials and fixed obligations.'],['Wants',30,'#e5a05d','Flexible personal spending.'],['Savings',20,'#59a58a','Savings and financial goals.']];
+ $('#calcBody').innerHTML=`<div class="calc-layout">${incomeBox()}<div class="box"><h3>Suggested allocation</h3><div id="results"></div><div class="actions"><button class="btn primary" id="copyBtn" type="button">Copy my budget</button><button class="btn soft" id="resetBtn" type="button">Reset</button></div><div class="note">${method==='702010'?'The 70/20/10 categories are one common interpretation. You can adapt the 10% category to your priorities.':'This is a guideline, not a rule you must follow exactly. Adjust it if your essential costs are higher.'}</div></div></div>`;
+ const update=()=>{let income=num('income');let rows=data.map(([name,pct,color,note])=>({name,pct,value:income*pct/100,color,note}));let text=()=>`My ${methods[method][0]}\\nIncome: ${fmt(income)}\\n`+rows.map(r=>`${r.name} (${r.pct}%): ${fmt(r.value)}`).join('\\n');setResults(standardRows(rows,income),text)};
+ listen(['income'],update);$('#resetBtn').onclick=()=>{render(method)};update();
+}
+function makeCustom(){
+ $('#calcBody').innerHTML=`<div class="calc-layout">${incomeBox()}<div class="box"><h3>Your percentages</h3><div class="inline-fields">${[['needsPct','Needs',50],['wantsPct','Wants',30],['savePct','Savings',20]].map(([id,l,v])=>`<div class="field"><label for="${id}">${l} (%)</label><div class="inputrow"><input id="${id}" type="number" min="0" max="100" value="${v}"><span class="prefix">%</span></div></div>`).join('')}</div><div id="pctStatus" class="status"></div><div id="results" style="margin-top:15px"></div><div class="actions"><button class="btn primary" id="copyBtn" type="button">Copy my budget</button><button class="btn soft" id="resetBtn" type="button">Reset</button></div><div class="note">Your percentages should add up to 100% for a fully allocated plan. You can use different labels or proportions in your own real-life budget.</div></div></div>`;
+ const update=()=>{let income=num('income'),p=[num('needsPct'),num('wantsPct'),num('savePct')],sum=p.reduce((a,b)=>a+b,0),names=['Needs','Wants','Savings'],colors=['#7e91d5','#e5a05d','#59a58a'];$('#pctStatus').textContent=`Total allocation: ${sum}%`;$('#pctStatus').className='status '+(sum===100?'good':'warn');let rows=names.map((name,i)=>({name,pct:p[i],value:income*p[i]/100,color:colors[i]}));$('#results').innerHTML=standardRows(rows, income)+`<p class="subtext">Unallocated percentage: ${(100-sum).toFixed(1)}%</p>`;$('#copyBtn').onclick=()=>copy(`Custom budget\\nIncome: ${fmt(income)}\\n`+rows.map(r=>`${r.name} (${r.pct}%): ${fmt(r.value)}`).join('\\n'))};
+ listen(['income','needsPct','wantsPct','savePct'],update);$('#resetBtn').onclick=()=>render('custom');update();
+}
+function makePayFirst(){
+ $('#calcBody').innerHTML=`<div class="calc-layout"><div class="box"><h3>Start with your savings</h3>${field('income','Monthly take-home income',25000)}<div class="inline-fields"><div class="field"><label for="saveAmount">Savings amount (₱)</label><div class="inputrow"><span class="prefix">₱</span><input id="saveAmount" type="number" min="0" value="5000"></div></div><div class="field"><label for="savePercent">Or savings rate (%)</label><div class="inputrow"><input id="savePercent" type="number" min="0" max="100" value="20"><span class="prefix">%</span></div></div></div><p class="hint">Change either field; the other updates automatically.</p></div><div class="box"><h3>What remains after saving?</h3><div id="results"></div><div class="actions"><button class="btn primary" id="copyBtn" type="button">Copy my budget</button><button class="btn soft" id="resetBtn" type="button">Reset</button></div><div class="note">Move savings aside when you receive your income, then plan your spending with what remains. Make sure the savings target is realistic.</div></div></div>`;
+ let lock=false;const update=(source)=>{if(lock)return;lock=true;let income=num('income'),amt=num('saveAmount'),pct=num('savePercent');if(source==='amount'){pct=income?amt/income*100:0;$('#savePercent').value=pct.toFixed(1)}else{amt=income*pct/100;$('#saveAmount').value=amt.toFixed(2)}let left=income-amt;let rows=[{name:'Savings set aside',value:amt,color:'#59a58a',pct:income?pct.toFixed(1):0},{name:'Money left to spend',value:left,color:'#7e91d5',pct:income?(100-pct).toFixed(1):0}];$('#results').innerHTML=standardRows(rows,income)+`<p class="subtext">${left<0?'Your savings target is greater than your income. Reduce it to see a positive remaining balance.':'Plan the remaining amount across your needs and wants.'}</p>`;$('#copyBtn').onclick=()=>copy(`Pay yourself first\\nIncome: ${fmt(income)}\\nSavings: ${fmt(amt)}\\nRemaining: ${fmt(left)}`);lock=false};
+ listen(['income'],()=>update('percent'));$('#saveAmount').addEventListener('input',()=>update('amount'));$('#savePercent').addEventListener('input',()=>update('percent'));$('#resetBtn').onclick=()=>render('payfirst');update('percent');
+}
+const defaultZero=[['Housing / rent',7000],['Food / groceries',4500],['Utilities',1500],['Transportation',2000],['Debt / obligations',1000],['Savings',3000]];
+function makeAllocation(method){
+ let isZero=method==='zero', isBare=method==='bare', isEnvelope=method==='envelope';
+ let title=isZero?'Plan every peso':isBare?'List your essential expenses':'Set your envelope limits';
+ let description=isZero?'Add planned amounts for each category. Add or remove rows to match your life.':isBare?'Enter the essentials you need to cover each month.':'Create spending envelopes with a limit for each category.';
+ let items=isBare?[['Housing / rent',7000],['Food / groceries',4500],['Utilities',1500],['Transportation',2000],['Medicine / essentials',500]]:isZero?defaultZero:[['Housing / rent',7000],['Groceries',3500],['Transportation',1500],['Bills',1500],['Personal spending',1500],['Eating out',1000],['Savings',3000]];
+ $('#calcBody').innerHTML=`<div class="calc-layout"><div class="box"><h3>${title}</h3>${field('income','Monthly take-home income',25000)}<div class="field"><label>Budget categories</label><div id="itemList" class="item-list"></div><button type="button" class="addrow" id="addItem">+ Add a category</button></div><p class="hint">${description}</p></div><div class="box"><h3>${isZero?'Your zero-based plan':isBare?'Your essential cost total':'Your envelope overview'}</h3><div id="results"></div><div class="actions"><button class="btn primary" id="copyBtn" type="button">Copy my budget</button><button class="btn soft" id="resetBtn" type="button">Reset</button></div><div class="note">${isZero?'For a zero-based budget, planned allocations (including savings and debt payments) should equal income.':isBare?'This is a minimum-needs estimate, not a complete long-term budget. Add other obligations if they are essential for you.':'Envelope amounts are spending limits. When an envelope is empty, pause or deliberately move money from another category.'}</div></div></div>`;
+ const list=$('#itemList');
+ function addRow(name='',value=0){let row=document.createElement('div');row.className='item-input';row.innerHTML=`<input type="text" aria-label="Category name" placeholder="Category name" value="${name.replaceAll('"','&quot;')}"><div class="inputrow"><span class="prefix">₱</span><input type="number" min="0" step="50" aria-label="Category amount" value="${value}" inputmode="decimal"></div>`;row.querySelectorAll('input').forEach(i=>i.addEventListener('input',update));list.appendChild(row);update()}
+ function values(){return [...list.children].map(row=>({name:row.querySelector('input[type=text]').value.trim()||'Untitled category',value:Math.max(0,Number(row.querySelector('input[type=number]').value)||0)}))}
+ function update(){let income=num('income'),rows=values(),sum=rows.reduce((a,b)=>a+b.value,0),remaining=income-sum;let color=isBare?'#7e91d5':isZero?'#59a58a':'#e5a05d';let statusText=isZero?(Math.abs(remaining)<.005?'Balanced: every peso has a job.':remaining>0?`${fmt(remaining)} still needs a job.`:`You have allocated ${fmt(-remaining)} more than your income.`):isBare?`${fmt(sum)} is your estimated monthly essential cost.`:`${fmt(sum)} assigned across your envelopes.`;let cls=isZero?(Math.abs(remaining)<.005?'good':remaining>0?'warn':'bad'):'good';$('#results').innerHTML=`<div class="result-total"><span>${isBare?'Essential expenses total':isEnvelope?'Total in envelopes':'Total allocated'}</span><strong>${fmt(sum)}</strong></div><div class="rows">${rows.map(r=>`<div class="result-row"><div class="rowtop"><span class="rowlabel">${r.name}</span><b class="money">${fmt(r.value)}</b></div><div class="track"><div class="fill" style="width:${income?Math.min(100,r.value/income*100):0}%;background:${color}"></div></div></div>`).join('')}</div>${isZero?`<div class="result-row" style="margin-top:15px"><div class="rowtop"><span class="rowlabel">Unassigned / over budget</span><b class="money">${fmt(remaining)}</b></div></div>`:isEnvelope?`<div class="result-row" style="margin-top:15px"><div class="rowtop"><span class="rowlabel">Not assigned to envelopes</span><b class="money">${fmt(remaining)}</b></div></div>`:`<div class="result-row" style="margin-top:15px"><div class="rowtop"><span class="rowlabel">Income remaining after essentials</span><b class="money">${fmt(remaining)}</b></div></div>`}<p class="status ${cls}">${statusText}</p>`;$('#copyBtn').onclick=()=>copy(`${methods[method][0]}\\nIncome: ${fmt(income)}\\n`+rows.map(r=>`${r.name}: ${fmt(r.value)}`).join('\\n')+`\\n${isBare?'Essential total':isEnvelope?'Envelope total':'Allocated total'}: ${fmt(sum)}\\nRemaining: ${fmt(remaining)}`)}
+ $('#addItem').onclick=()=>addRow('New category',0);items.forEach(([n,v])=>addRow(n,v));listen(['income'],update);$('#resetBtn').onclick=()=>render(method);
+}
+function render(method){
+ active=method;$('#dashboard').classList.add('hidden');$('#calculator').classList.remove('hidden');$('#calcTitle').textContent=methods[method][0];$('#calcDesc').textContent=methods[method][1];
+ if(method==='503020'||method==='702010')makeSimple(method);else if(method==='custom')makeCustom();else if(method==='payfirst')makePayFirst();else makeAllocation(method);
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+function home(){$('#calculator').classList.add('hidden');$('#dashboard').classList.remove('hidden');active=null;window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('[data-method]').forEach(b=>b.addEventListener('click',()=>render(b.dataset.method)));
+$('#back').addEventListener('click',home);$('#homeTop').addEventListener('click',home);
+</script>
+</body>
+</html>
